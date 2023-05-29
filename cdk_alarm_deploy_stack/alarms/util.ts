@@ -1,3 +1,4 @@
+import { StringListParameter } from 'aws-cdk-lib/aws-ssm';
 import {APIGatewayProxyResult} from 'aws-lambda';
 import {randomUUID } from "crypto"
 
@@ -11,9 +12,17 @@ export const ApigateWayProxyResult = (statusCode:number, msg:string):APIGatewayP
 }
 
 export interface IAlarm {
+  id:string;
   type:number;
   name:string;
-  id:string;
+  objectid:string;
+  date:string;
+  x:number;
+  y:number;
+  h:number;
+  w:number;
+  confidence:number;
+  datetime:string;
 }
 
 export const enum http {
