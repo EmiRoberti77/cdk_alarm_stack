@@ -4,9 +4,7 @@ import {DynamoDBClient, PutItemCommand} from '@aws-sdk/client-dynamodb';
 import { marshall } from "@aws-sdk/util-dynamodb";
 
 const alarmTable = 'alaramuitable'
-const dbClient = new DynamoDBClient({});
-
-export const postAlarm = async (event:APIGatewayProxyEvent):Promise<APIGatewayProxyResult> => {
+export const postAlarm = async (event:APIGatewayProxyEvent, dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> => {
 
   //create body
   const item:IAlarm = JSON.parse(event.body!) as IAlarm;

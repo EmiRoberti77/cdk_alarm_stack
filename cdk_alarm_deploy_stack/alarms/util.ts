@@ -1,8 +1,9 @@
 import { StringListParameter } from 'aws-cdk-lib/aws-ssm';
-import {APIGatewayProxyResult} from 'aws-lambda';
+import {APIGatewayProxyResult, AttributeValue} from 'aws-lambda';
 import {randomUUID } from "crypto"
 
-export const ApigateWayProxyResult = (statusCode:number, msg:string):APIGatewayProxyResult =>{
+export const ApigateWayProxyResult = (statusCode:number, 
+                                      msg:string ): APIGatewayProxyResult =>{
   return {
     statusCode,
     body:JSON.stringify({

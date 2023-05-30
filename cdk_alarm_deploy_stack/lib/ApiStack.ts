@@ -21,6 +21,7 @@ export class ApiStack extends Stack {
 
     const apiResources = api.root.addResource('alarms', optionsWithCors);
 
-    apiResources.addMethod('POST', props.lambdaIntegration)
+    apiResources.addMethod('POST', props.lambdaIntegration);
+    apiResources.addMethod('GET', props.lambdaIntegration);
   }
 }
