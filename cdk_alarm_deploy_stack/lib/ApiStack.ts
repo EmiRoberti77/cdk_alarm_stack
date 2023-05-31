@@ -23,5 +23,6 @@ export class ApiStack extends Stack {
 
     apiResources.addMethod('POST', props.lambdaIntegration);
     apiResources.addMethod('GET', props.lambdaIntegration);
+    apiResources.addMethod('PUT', props.lambdaIntegration);
   }
 }

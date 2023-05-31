@@ -38,7 +38,7 @@ export class AlarmLambdaStack extends Stack {
     alaramLambda.addToRolePolicy(new PolicyStatement({
       effect:Effect.ALLOW,
       resources:[alarmTable.tableArn],
-      actions:['dynamodb:PutItem','dynamodb:Scan']
+      actions:['*']
     }))
 
     //assign lambda integration to public variable so it can be read from outside this class

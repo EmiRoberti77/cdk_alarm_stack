@@ -28,7 +28,8 @@ export interface IAlarm {
 
 export const enum http {
   POST='POST',
-  GET='GET'
+  GET='GET',
+  PUT='PUT'
 }
 
 export const createId = ():string => {
