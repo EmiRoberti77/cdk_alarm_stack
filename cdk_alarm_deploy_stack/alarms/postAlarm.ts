@@ -24,11 +24,18 @@ export const postAlarm = async (event:APIGatewayProxyEvent, dbClient: DynamoDBCl
       }))
 
       console.log(result);
-    }
+
+      return {
+        statusCode:201,
+        body:JSON.stringify({
+          message:item.id
+        })
+      }
+    };
   } catch(error:any) {
     console.log(error)
     return ApigateWayProxyResult(501, error.message);
   } 
-  
-  return ApigateWayProxyResult(201, `added succesfully id=${item.id}`);
+  return ApigateWayProxyResult(501, "no action taken in POST => postAlarm");
+
 } 

@@ -90,7 +90,9 @@ const scanAll = async (dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> 
     console.log(result.Items);
     return {
       statusCode:200,
-      body:JSON.stringify(result.Items)
+      body:JSON.stringify(result.Items?.map((item)=>{
+        return unmarshall(item)
+      }))
     };
 
   }catch(error:any){

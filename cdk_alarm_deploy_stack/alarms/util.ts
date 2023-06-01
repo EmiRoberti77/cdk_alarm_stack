@@ -1,6 +1,7 @@
 import { StringListParameter } from 'aws-cdk-lib/aws-ssm';
 import {APIGatewayProxyResult, AttributeValue} from 'aws-lambda';
 import {randomUUID } from "crypto"
+import { parseArgs } from 'util';
 
 export const ApigateWayProxyResult = (statusCode:number, 
                                       msg:string ): APIGatewayProxyResult =>{
@@ -24,6 +25,14 @@ export interface IAlarm {
   w:number;
   confidence:number;
   datetime:string;
+}
+
+export function addCorsHeader(arg: APIGatewayProxyResult) {
+  if(!arg.headers) {
+      arg.headers = {}
+  }
+  arg.headers['Access-Control-Allow-Origin'] = '*';
+  arg.headers['Access-Control-Allow-Methods'] = '*';
 }
 
 export const enum http {

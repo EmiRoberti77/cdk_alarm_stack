@@ -1,4 +1,4 @@
 
 
-GET https://ldjbfj10di.execute-api.us-east-1.amazonaws.com/prod/alarms?datetime=2022-05-20T12:00
+GET https://xn86efpkll.execute-api.us-east-1.amazonaws.com/prod/alarms
 ###

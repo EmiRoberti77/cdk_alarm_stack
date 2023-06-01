@@ -39,6 +39,7 @@ export const updateAlarms = async (event:APIGatewayProxyEvent, dbClient: DynamoD
     try {
       const result = await dbClient.send(updateCommand);
       console.log("Item updated successfully:", result);
+      
       return{
         statusCode:201,
         body:JSON.stringify({
