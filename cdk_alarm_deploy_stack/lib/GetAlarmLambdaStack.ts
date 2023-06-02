@@ -8,51 +8,44 @@ import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Construct } from "constructs";
 import {join} from 'path';
 
-export class AlarmLambdaStack extends Stack {
+interface GetAlarmLambdaStackProps extends StackProps {
+  table:Table;
+}
+
+export class GetAlarmLambdaStack extends Stack {
 
   public lambdaIntegration:LambdaIntegration;
-  public table:Table;
 
-  constructor(scope: Construct, id:string, props?:StackProps){
+  constructor(scope: Construct, id:string, props:GetAlarmLambdaStackProps){
     super(scope, id, props);
 
-    //create table
-    const alarmTable = new Table(this, 'alarmTable',{
-      partitionKey:{
-        name:'id',
-        type: AttributeType.STRING
-      },
-      tableName:'alaramuitable'
-    })
-
     //create lambda
-    const alaramLambda = new NodejsFunction(this, 'alarmLambda', {
+    const alaramLambda = new NodejsFunction(this, 'getalarmLambda', {
       runtime:Runtime.NODEJS_18_X,
       handler:'handler',
-      entry: join(__dirname, '..', 'alarms', 'handler.ts'),
+      entry: join(__dirname, '..', 'getalarms', 'handler.ts'),
       environment:{
-        ALARM_TABLE:alarmTable.tableName
+        ALARM_TABLE: props.table.tableName
       }
     });
 
     //create policy for dynamo
     alaramLambda.addToRolePolicy(new PolicyStatement({
       effect:Effect.ALLOW,
-      resources:[alarmTable.tableArn],
+      resources:[props.table.tableArn],
       actions:['*']
     }))
 
     //assign lambda integration to public variable so it can be read from outside this class
     this.lambdaIntegration = new LambdaIntegration(alaramLambda);
-    this.table = alarmTable;
 
     //outputs
     new CfnOutput(this, 'alarmTableName', {
-      value: alarmTable.tableName
+      value: props.table.tableName
     })
 
     new CfnOutput(this, 'alarmTableArn', {
-      value: alarmTable.tableArn
+      value: props.table.tableArn
     })
 
     new CfnOutput(this, 'alarmLambdaName', {

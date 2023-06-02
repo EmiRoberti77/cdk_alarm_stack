@@ -29,7 +29,7 @@ export const postAlarm = async (event:APIGatewayProxyEvent, dbClient: DynamoDBCl
         statusCode:201,
         body:JSON.stringify({
           message:item.id
-        })
+        }) 
       }
     };
   } catch(error:any) {
