@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { ApigateWayProxyResult } from "./util";
-import { DynamoDBClient, ScanCommand, QueryCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, ScanCommand, GetItemCommand, ScanCommandOutput } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 const alarmTable = 'alaramuitable';
@@ -94,6 +94,28 @@ const scanAll = async (dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> 
         return unmarshall(item)
       }))
     };
+
+  }catch(error:any){
+    console.log(error.message)
+    return ApigateWayProxyResult(501, error.message)
+  }
+}
+
+export const getAlarmByObject_Id = async (
+                                          objectID:string, 
+                                          dbClient:DynamoDBClient
+                                          ):Promise<APIGatewayProxyResult | ScanCommandOutput> => {
+
+  try {
+
+      console.log('object_id',objectID)
+      return await dbClient.send(new ScanCommand({
+      TableName: alarmTable,
+      FilterExpression: 'object_id = :objectID',
+      ExpressionAttributeValues: {
+        ':objectID': { S: objectID },
+      },
+    }))
 
   }catch(error:any){
     console.log(error.message)

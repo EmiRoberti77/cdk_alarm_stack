@@ -13,18 +13,24 @@ export const ApigateWayProxyResult = (statusCode:number,
   }
 }
 
+export interface Coords {
+  y1:number;
+  x1:number;
+  y2:number;
+  x2:number;
+}
 export interface IAlarm {
   id:string;
   type:number;
   name:string;
-  objectid:string;
-  date:string;
-  x:number;
-  y:number;
-  h:number;
-  w:number;
-  confidence:number;
+  object_id:string;
   datetime:string;
+  camera_name:string;
+  last_update_time:string;
+  arrival_time:string;
+  arrival_date:string;
+  last_update_date:string;
+  coords:Coords;
 }
 
 export function addCorsHeader(arg: APIGatewayProxyResult) {

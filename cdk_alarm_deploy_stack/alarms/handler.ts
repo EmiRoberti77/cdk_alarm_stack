@@ -21,7 +21,7 @@ export const handler = async (event:APIGatewayProxyEvent, context:Context):Promi
       break;
       case http.PUT:
         //get data back from DB and S3 bucket
-        response = await updateAlarms(event, dbClient)
+        response = ApigateWayProxyResult(403, 'PUT methos has been removed for this version of the API')
       break;
     default:
       response = ApigateWayProxyResult(400, 'no http method found >>' + method)

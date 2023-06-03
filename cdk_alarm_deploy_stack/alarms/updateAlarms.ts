@@ -4,12 +4,7 @@ import {DynamoDBClient, UpdateItemCommand} from '@aws-sdk/client-dynamodb';
 import { marshall } from "@aws-sdk/util-dynamodb";
 
 const alarmTable = 'alaramuitable'
-export const updateAlarms = async (event:APIGatewayProxyEvent, dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> => {
-
-  //create body
-  const item:IAlarm = JSON.parse(event.body!) as IAlarm;
-  //item.id = createId();
-  //item.datetime = new Date().toISOString();
+export const updateAlarms = async (item:IAlarm, dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> => {
 
   console.log(item);
 
@@ -21,25 +16,32 @@ export const updateAlarms = async (event:APIGatewayProxyEvent, dbClient: DynamoD
     
     // Specify the updates to be made
     const updates = {
-      ":newAttribute1": { N: item.confidence.toString()},
-      ":newAttribute2": { S: item.name }
+      ":newAttribute1": { N: item.type.toString()},
+      ":newAttribute2": { S: item.name },
+      ":newAttribute3": { S: item.last_update_date },
+      ":newAttribute4": { S: item.last_update_time }
     };
     
     // Construct the UpdateItemCommand
     const updateCommand = new UpdateItemCommand({
       TableName: alarmTable,
       Key: key,
-      UpdateExpression: "SET confidence = :newAttribute1, #attrName = :newAttribute2 ",
+      UpdateExpression: "SET #attrType = :newAttribute1, #attrName = :newAttribute2, last_update_date= :newAttribute3, last_update_time= :newAttribute4",
       ExpressionAttributeValues: updates,
-      ExpressionAttributeNames: { "#attrName": "name" },
+      ExpressionAttributeNames: { 
+        "#attrName": "name",
+        "#attrType":"type"
+       },
       ReturnValues: "ALL_NEW", // Specify the desired return values if needed
     });
     
+    console.log("______________");
+    console.log(JSON.stringify(updateCommand));
     // Execute the command
     try {
       const result = await dbClient.send(updateCommand);
       console.log("Item updated successfully:", result);
-      
+
       return{
         statusCode:201,
         body:JSON.stringify({
