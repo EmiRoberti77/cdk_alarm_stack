@@ -1,9 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { ApigateWayProxyResult } from "./util";
+import { ApigateWayProxyResult, TABLES } from "./util";
 import { DynamoDBClient, ScanCommand, GetItemCommand, ScanCommandOutput } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
-const alarmTable = 'alaramuitable';
 const enum queryStrings {
   datetime = 'datetime',
   type = 'type',
@@ -34,7 +33,7 @@ const getAlarmByID = async (uniqueID:string, dbClient:DynamoDBClient):Promise<AP
   try{
 
     const result = await dbClient.send(new GetItemCommand({
-      TableName:alarmTable,
+      TableName:TABLES.alarmTable,
       Key:{
         id: {S: uniqueID}
       }
@@ -55,7 +54,7 @@ const getAlarmsByTime =  async (datetime:string, dbClient:DynamoDBClient) => {
 
   try{
     const params = {
-      TableName: alarmTable,
+      TableName: TABLES.alarmTable,
       FilterExpression: '#dt > :datetime',
       ExpressionAttributeNames: {
         '#dt': 'datetime',
@@ -84,7 +83,7 @@ const scanAll = async (dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> 
 
   try{
     const result = await dbClient.send(new ScanCommand({
-      TableName:alarmTable
+      TableName:TABLES.alarmTable
     }))
 
     console.log(result.Items);
@@ -110,7 +109,7 @@ export const getAlarmByObject_Id = async (
 
       console.log('object_id',objectID)
       return await dbClient.send(new ScanCommand({
-      TableName: alarmTable,
+      TableName: TABLES.alarmTable,
       FilterExpression: 'object_id = :objectID',
       ExpressionAttributeValues: {
         ':objectID': { S: objectID },

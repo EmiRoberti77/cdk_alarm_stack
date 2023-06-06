@@ -1,15 +1,14 @@
 import {APIGatewayProxyEvent, APIGatewayProxyResult, Context} from 'aws-lambda';
-import {ApigateWayProxyResult, IAlarm, createId, isIAlarmValid} from './util';
+import {ApigateWayProxyResult, IAlarm, TABLES, createId, isIAlarmValid} from './util';
 import {DynamoDBClient, UpdateItemCommand} from '@aws-sdk/client-dynamodb';
 import { marshall } from "@aws-sdk/util-dynamodb";
 
-const alarmTable = 'alaramuitable'
 export const updateAlarms = async (item:IAlarm, dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> => {
 
   console.log(item);
 
   try{
-    console.log(`tablename update -> ${alarmTable}`)
+    console.log(`tablename update -> ${TABLES.alarmTable}`)
     
     // Specify the table name and key attributes
     const key = { id: { S: item.id } }; // Example assuming a string key "id"
@@ -24,7 +23,7 @@ export const updateAlarms = async (item:IAlarm, dbClient: DynamoDBClient):Promis
     
     // Construct the UpdateItemCommand
     const updateCommand = new UpdateItemCommand({
-      TableName: alarmTable,
+      TableName: TABLES.alarmTable,
       Key: key,
       UpdateExpression: "SET #attrType = :newAttribute1, #attrName = :newAttribute2, last_update_date= :newAttribute3, last_update_time= :newAttribute4",
       ExpressionAttributeValues: updates,

@@ -3,8 +3,15 @@ import {APIGatewayProxyResult, AttributeValue} from 'aws-lambda';
 import {randomUUID } from "crypto"
 import { parseArgs } from 'util';
 
-export const ApigateWayProxyResult = (statusCode:number, 
-                                      msg:string ): APIGatewayProxyResult =>{
+const DEFAULT_MSG = 'code not complete'
+
+export enum TABLES {
+  alarmTable = 'alaramuitable'
+}
+
+export const ApigateWayProxyResult = (statusCode:number = 501, 
+                                      msg:string = DEFAULT_MSG ): 
+                                      APIGatewayProxyResult =>{
   return {
     statusCode,
     body:JSON.stringify({

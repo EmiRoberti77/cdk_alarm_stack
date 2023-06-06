@@ -1,12 +1,11 @@
 import {APIGatewayProxyEvent, APIGatewayProxyResult, Context} from 'aws-lambda';
-import {ApigateWayProxyResult, IAlarm, createId, isIAlarmValid} from './util';
+import {ApigateWayProxyResult, IAlarm, TABLES, createId, isIAlarmValid} from './util';
 import {DynamoDBClient, PutItemCommand} from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { getAlarmByObject_Id } from './getAlarms';
 import { ScanCommandOutput } from "@aws-sdk/client-dynamodb";
 import { updateAlarms } from './updateAlarms';
 
-const alarmTable = 'alaramuitable'
 export const postAlarm = async (event:APIGatewayProxyEvent, dbClient: DynamoDBClient):Promise<APIGatewayProxyResult> => {
 
   //create body
@@ -44,13 +43,13 @@ export const postAlarm = async (event:APIGatewayProxyEvent, dbClient: DynamoDBCl
 
 const postNew = async (item:IAlarm, dbClient:DynamoDBClient):Promise<APIGatewayProxyResult> => {
   try{
-    console.log(`tablename in postNew-> ${alarmTable}`)
+    console.log(`tablename in postNew-> ${TABLES.alarmTable}`)
     console.log(`table name from process.env.ALARM_TABLE=${process.env.ALARM_TABLE}`);
 
     if(isIAlarmValid(item)){
       console.log(item)
       const result = await dbClient.send(new PutItemCommand({
-        TableName:alarmTable,
+        TableName:TABLES.alarmTable,
         Item:marshall(item, {convertClassInstanceToMap:true})
       }))
 
