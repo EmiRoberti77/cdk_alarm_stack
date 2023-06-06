@@ -1,4 +1,4 @@
-import {handler} from '../getalarms/handler';
+import {handler} from '../alarms/getalarms/handler';
 
 const e:any = {};
 e.httpMethod='GET'

@@ -23,6 +23,9 @@ export const handler = async (event:APIGatewayProxyEvent, context:Context):Promi
         //get data back from DB and S3 bucket
         response = ApigateWayProxyResult(403, 'PUT methos has been removed for this version of the API')
       break;
+      case http.DELETE:
+        response = ApigateWayProxyResult(404, 'DELETE alaram function not implememted yet')
+        break;
     default:
       response = ApigateWayProxyResult(400, 'no http method found >>' + method)
   }

@@ -1,8 +1,8 @@
 import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda";
-import { ApigateWayProxyResult, addCorsHeader, http } from "../alarms/util";
-import { getAlarms } from "../alarms/getAlarms";
+import { ApigateWayProxyResult, addCorsHeader, http } from '../util';
+import { getAlarms } from "../getAlarms";
 
 const dbClient = new DynamoDBClient({});
 const alarmTable = 'alaramuitable'

@@ -2,7 +2,8 @@
 !jest.config.js
 *.d.ts
 node_modules
-
+./cdk_alarm_deploy_stack/secrets.json
+./cdk_alarm_deploy_stack/keyframe_upload/keyframe_upload.py
 # CDK asset staging directory
 .cdk.staging
 cdk.out

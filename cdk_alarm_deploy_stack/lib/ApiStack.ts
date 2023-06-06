@@ -22,14 +22,13 @@ export class ApiStack extends Stack {
 
     //add first lambda
     const apiResources = api.root.addResource('alarms', optionsWithCors);
-
     apiResources.addMethod('POST', props.lambdaIntegration);
     apiResources.addMethod('GET', props.lambdaIntegration);
     apiResources.addMethod('PUT', props.lambdaIntegration);
+    apiResources.addMethod('DELETE', props.lambdaIntegration)
 
     //add sevond lambda
     const apiGetLambdaResources = api.root.addResource('getalarms', optionsWithCors);
-
     apiGetLambdaResources.addMethod('GET', props.getLambdaIntegration);
   }
 }

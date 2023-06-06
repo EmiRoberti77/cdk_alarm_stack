@@ -23,7 +23,7 @@ export class GetAlarmLambdaStack extends Stack {
     const alaramLambda = new NodejsFunction(this, 'getalarmLambda', {
       runtime:Runtime.NODEJS_18_X,
       handler:'handler',
-      entry: join(__dirname, '..', 'getalarms', 'handler.ts'),
+      entry: join(__dirname, '..', 'alarms', 'getalarms', 'handler.ts'),
       environment:{
         ALARM_TABLE: props.table.tableName
       }

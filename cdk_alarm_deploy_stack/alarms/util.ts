@@ -44,7 +44,8 @@ export function addCorsHeader(arg: APIGatewayProxyResult) {
 export const enum http {
   POST='POST',
   GET='GET',
-  PUT='PUT'
+  PUT='PUT',
+  DELETE='DELETE'
 }
 
 export const createId = ():string => {
